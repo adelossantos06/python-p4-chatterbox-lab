@@ -50,7 +50,7 @@ def messages():
 @app.route('/messages/<int:id>', methods=['GET','PATCH', 'DELETE'])
 def messages_by_id(id):
     message = Message.query.filter(Message.id == id).first()
-    if message is None:
+    if message == None:
         response_body = {
             "message": "This record does not exist in our database. Please try again"
         }
@@ -66,11 +66,11 @@ def messages_by_id(id):
         return response
 
     elif request.method == 'PATCH':
-        data = request.get_json()  # Parses JSON input
+        data = request.get_json()  
         for attr, value in data.items():
-            setattr(message, attr, value)  # Updates message attributes
+            setattr(message, attr, value) 
 
-        db.session.commit()  # Commits changes to the database
+        db.session.commit()  
 
         message_dict = message.to_dict()
         response = make_response(
@@ -99,10 +99,3 @@ if __name__ == '__main__':
     app.run(port=5555)
 
 
-#Routes
-#Build out the following routes to handle the necessary CRUD actions:
-
-#GET /messages: returns an array of all messages as JSON, ordered by created_at in ascending order.
-#POST /messages: creates a new message with a body and username from params, and returns the newly created post as JSON.
-#PATCH /messages/<int:id>: updates the body of the message using params, and returns the updated message as JSON.
-#DELETE /messages/<int:id>: deletes the message from the database.
